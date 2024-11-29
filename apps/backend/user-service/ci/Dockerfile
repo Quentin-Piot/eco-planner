@@ -34,7 +34,7 @@ WORKDIR /app
 RUN npm i -g pnpm turbo
 RUN pnpm config set store-dir ~/.pnpm-store
 
-COPY --from=installer --chown=nestjs:nodejs /app ./
+COPY --from=installer /app ./
 
 # Copies spécifiques pour les packages
 COPY --from=installer /app/packages/protos/generated ./apps/backend/user-service/node_modules/@quentinpiot/protos/generated

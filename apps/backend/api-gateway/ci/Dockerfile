@@ -39,7 +39,7 @@ RUN npm i -g pnpm turbo
 RUN pnpm config set store-dir ~/.pnpm-store
 
 
-COPY --from=installer --chown=nestjs:nodejs /app ./
+COPY --from=installer /app ./
 
 COPY --from=installer /app/packages/protos/generated ./apps/backend/api-gateway/node_modules/@quentinpiot/protos/generated
 COPY --from=installer /app/packages/protos/package.json ./apps/backend/api-gateway/node_modules/@quentinpiot/protos/package.json
