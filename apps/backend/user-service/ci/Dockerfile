@@ -44,10 +44,6 @@ COPY --from=installer /app/packages/dtos/package.json ./apps/backend/user-servic
 COPY --from=installer /app/packages/utils-microservices/dist ./apps/backend/user-service/node_modules/@quentinpiot/utils-microservices/dist
 COPY --from=installer /app/packages/utils-microservices/package.json ./apps/backend/user-service/node_modules/@quentinpiot/utils-microservices/package.json
 
-# Ajout des utilisateurs non-root
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nestjs
-USER nestjs
 
 # Exposer le port pour le service
 EXPOSE 5000
