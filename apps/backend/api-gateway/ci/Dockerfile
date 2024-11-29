@@ -45,10 +45,6 @@ COPY --from=installer /app/packages/protos/generated ./apps/backend/api-gateway/
 COPY --from=installer /app/packages/protos/package.json ./apps/backend/api-gateway/node_modules/@quentinpiot/protos/package.json
 COPY --from=installer /app/packages/dtos/dist ./apps/backend/api-gateway/node_modules/@quentinpiot/dtos/dist
 COPY --from=installer /app/packages/dtos/package.json ./apps/backend/api-gateway/node_modules/@quentinpiot/dtos/package.json
-# Don't run production as root
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nestjs
-USER nestjs
 
 EXPOSE 3000
 
