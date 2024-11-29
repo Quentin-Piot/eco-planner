@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build:
+      context: ../../../../
+      dockerfile: apps/backend/api-gateway/ci/Dockerfile
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    ports:
+      - "3000:3000"
+    volumes:
+      - shared-data:/shared
+
+volumes:
+  shared-data:
+    driver: local

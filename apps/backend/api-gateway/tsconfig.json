@@ -1,0 +1,16 @@
+{
+  "extends": "@quentinpiot/configs/typescript/nest.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "typeRoots" : [
+    "./src/index.d.ts",
+    "node_modules/@types"
+  ],
+  "include": ["src"],
+  "exclude": ["node_modules","dist"]
+}
