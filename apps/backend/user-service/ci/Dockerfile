@@ -49,4 +49,4 @@ COPY --from=installer /app/packages/utils-microservices/package.json ./apps/back
 EXPOSE 5000
 
 # Commande de démarrage avec migration Prisma avant le démarrage du service
-CMD ["sh", "-c", "npx prisma migrate deploy --schema=./apps/backend/user-service/src/infrastructure/persistence/prisma/schema.prisma && node apps/backend/user-service/dist/main.js"]
+CMD ["sh", "-c", "node apps/backend/user-service/dist/main.js"]
