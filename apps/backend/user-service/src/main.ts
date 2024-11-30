@@ -30,7 +30,6 @@ async function bootstrap() {
                 onLoadPackageDefinition: (pkg, server) => {
                     new ReflectionService(pkg).addToServer(server);
                 },
-                credentials: ServerCredentials.createInsecure()
             },
         },
     );
