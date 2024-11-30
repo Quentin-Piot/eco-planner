@@ -10,31 +10,15 @@ import { JwtStrategy } from "@/auth/jwt.strategy";
 import { LocalEmailStrategy } from "@/auth/local-email.strategy";
 import { LocalPhoneStrategy } from "@/auth/local-phone.strategy";
 import { UserController } from "@/user/user.controller";
+import { UserService } from './user.service';
+import {CqrsModule} from "@nestjs/cqrs";
 
 @Module({
   imports: [
     AuthModule,
-    ClientsModule.register([
-      {
-        name: "USER_PACKAGE",
-        transport: Transport.GRPC,
-        options: {
-          package: "user",
-          protoPath: join(
-            __dirname,
-            "..",
-            "..",
-            "node_modules",
-            "@quentinpiot",
-            "protos",
-            "user.proto",
-          ),
-          url: process.env.USER_SERVICE_URL
-        },
-      },
-    ]),
+    CqrsModule
   ],
-
   controllers: [UserController],
+  providers: [UserService],
 })
 export class UserModule {}

@@ -7,9 +7,9 @@ import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 
 import * as argon2 from "argon2";
 
-import { UserEntity } from "@/domain/entities/user.entity";
-import { IUserRepository } from "@/interfaces/user-repository.interface";
-import { CheckPasswordCombinationQuery } from "@/queries/check-password-combination.query";
+import { UserEntity } from "@/user/domain/entities/user.entity";
+import { IUserRepository } from "@/user/interfaces/user-repository.interface";
+import { CheckPasswordCombinationQuery } from "@/user/queries/check-password-combination.query";
 
 @QueryHandler(CheckPasswordCombinationQuery)
 export class CheckPasswordCombinationHandler

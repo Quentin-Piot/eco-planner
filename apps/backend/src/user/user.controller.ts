@@ -15,23 +15,15 @@ import { UserServiceController } from "@quentinpiot/protos/generated/user";
 
 import { JwtAuthGuard } from "@/auth/jwt-auth.guard";
 import { GrpcToHttpInterceptor } from "@/interceptors/grpc-to-http.interceptor";
+import {UserService} from "@/user/user.service";
 
-interface UserService extends UserServiceController {}
 
 @UseInterceptors(GrpcToHttpInterceptor)
 @Controller("users")
 export class UserController {
-  private userService: UserService;
 
-  constructor(@Inject("USER_PACKAGE") private client: ClientGrpc) {}
+  constructor(private readonly userService:UserService) {}
 
-  onModuleInit() {
-    try {
-      this.userService = this.client.getService<UserService>("UserService");
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto) {

@@ -3,9 +3,9 @@ import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 
 import * as argon2 from "argon2";
 
-import { CreateUserCommand } from "@/commands/create-user.command";
-import { UserEntity, UserEntityWithoutId } from "@/domain/entities/user.entity";
-import { IUserRepository } from "@/interfaces/user-repository.interface";
+import { CreateUserCommand } from "@/user/commands/create-user.command";
+import { UserEntity, UserEntityWithoutId } from "@/user/domain/entities/user.entity";
+import { IUserRepository } from "@/user/interfaces/user-repository.interface";
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
