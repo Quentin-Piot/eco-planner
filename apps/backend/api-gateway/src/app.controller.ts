@@ -31,9 +31,7 @@ export class AppController {
             "user.proto",
           ),
           url:
-            process.env.NODE_ENV === "development"
-              ? "localhost:5000"
-              : "user-service:5000", // URL du microservice
+            process.env.USER_SERVICE_URL
         }),
     ]);
   }

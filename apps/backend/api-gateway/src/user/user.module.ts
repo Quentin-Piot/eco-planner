@@ -29,10 +29,7 @@ import { UserController } from "@/user/user.controller";
             "protos",
             "user.proto",
           ),
-          url:
-            process.env.NODE_ENV === "development"
-              ? "localhost:5000"
-              : "user-service:5000",
+          url: process.env.USER_SERVICE_URL
         },
       },
     ]),
