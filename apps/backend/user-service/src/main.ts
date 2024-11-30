@@ -6,6 +6,7 @@ import {ConfigModule} from "@nestjs/config";
 import {ReflectionService} from "@grpc/reflection";
 import {NestFactory} from "@nestjs/core";
 import {MicroserviceOptions, Transport} from "@nestjs/microservices";
+import {ChannelCredentials} from "@grpc/grpc-js";
 
 async function bootstrap() {
     const app = await NestFactory.createMicroservice<MicroserviceOptions>(
@@ -26,6 +27,7 @@ async function bootstrap() {
                 onLoadPackageDefinition: (pkg, server) => {
                     new ReflectionService(pkg).addToServer(server);
                 },
+                credentials: ChannelCredentials.createSsl()
             },
         },
     );
