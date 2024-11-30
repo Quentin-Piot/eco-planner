@@ -45,8 +45,11 @@ COPY --from=installer /app/packages/utils-microservices/dist ./apps/backend/user
 COPY --from=installer /app/packages/utils-microservices/package.json ./apps/backend/user-service/node_modules/@quentinpiot/utils-microservices/package.json
 
 
-# Exposer le port pour le service
-EXPOSE 5000
+# Indiquer que le conteneur doit écouter sur $PORT
+ENV PORT 8080
+
+# Exposer le port utilisé
+EXPOSE 8080
 
 # Commande de démarrage avec migration Prisma avant le démarrage du service
 CMD ["sh", "-c", "node apps/backend/user-service/dist/main.js"]

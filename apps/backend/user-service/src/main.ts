@@ -9,12 +9,15 @@ import {MicroserviceOptions, Transport} from "@nestjs/microservices";
 import { ServerCredentials} from "@grpc/grpc-js";
 
 async function bootstrap() {
+    const port = process.env.PORT || '5000';
+    const address = '0.0.0.0';
+
     const app = await NestFactory.createMicroservice<MicroserviceOptions>(
         AppModule,
         {
             transport: Transport.GRPC,
             options: {
-                url: "0.0.0.0:5000",
+                url: `${address}:${port}`,
                 package: "user",
                 protoPath: join(
                     __dirname,
