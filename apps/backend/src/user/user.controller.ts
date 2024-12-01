@@ -1,42 +1,30 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Inject,
-  Post,
-  Req,
-  UseGuards,
-  UseInterceptors,
-} from "@nestjs/common";
-import { ClientGrpc } from "@nestjs/microservices";
+import {Body, Controller, Get, Post, Req, UseGuards, UseInterceptors,} from "@nestjs/common";
 
-import { CreateUserDto } from "@quentinpiot/dtos";
-import { UserServiceController } from "@quentinpiot/protos/generated/user";
+import {CreateUserDto} from "@quentinpiot/dtos";
 
-import { JwtAuthGuard } from "@/auth/jwt-auth.guard";
-import { GrpcToHttpInterceptor } from "@/interceptors/grpc-to-http.interceptor";
+import {JwtAuthGuard} from "@/auth/jwt-auth.guard";
 import {UserService} from "@/user/user.service";
 
 
-@UseInterceptors(GrpcToHttpInterceptor)
 @Controller("users")
 export class UserController {
 
-  constructor(private readonly userService:UserService) {}
+    constructor(private readonly userService: UserService) {
+    }
 
 
-  @Post()
-  async createUser(@Body() createUserDto: CreateUserDto) {
-    return this.userService.createUser(createUserDto);
-  }
+    @Post()
+    async createUser(@Body() createUserDto: CreateUserDto) {
+        return this.userService.createUser(createUserDto);
+    }
 
-  @Get("/profile")
-  @UseGuards(JwtAuthGuard)
-  async getMe(@Req() request: any) {
-    const userInfos = request.user;
-    return this.userService.getUser({
-      email: userInfos.email,
-      phoneNumber: userInfos.phoneNumber,
-    });
-  }
+    @Get("/profile")
+    @UseGuards(JwtAuthGuard)
+    async getMe(@Req() request: any) {
+        const userInfos = request.user;
+        return this.userService.getUser({
+            email: userInfos.email,
+            phoneNumber: userInfos.phoneNumber,
+        });
+    }
 }

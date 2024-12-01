@@ -1,3 +1,3 @@
 export * from "./create-user.dto";
-export * from "./check-health.dto";
+export * from "./get-user.dto";
 export * from "./sign-in.dto";

@@ -1,44 +1,14 @@
-import { Controller, Get } from "@nestjs/common";
-import {
-  GRPCHealthIndicator,
-  HealthCheck,
-  HealthCheckService,
-} from "@nestjs/terminus";
-
-import { join } from "path";
+import {Controller, Get} from "@nestjs/common";
 
 @Controller("")
 export class AppController {
-  constructor(
-    private health: HealthCheckService,
-    private grpc: GRPCHealthIndicator,
-  ) {}
+    constructor() {
+    }
 
-  @Get("/health")
-  @HealthCheck()
-  async check() {
-    return this.health.check([
-      async () =>
-        this.grpc.checkService("user_service", "user_service", {
-          timeout: 500,
-          package: "user",
-          protoPath: join(
-            __dirname,
-            "..",
-            "node_modules",
-            "@quentinpiot",
-            "protos",
-            "user.proto",
-          ),
-          url:
-            process.env.USER_SERVICE_URL
-        }),
-    ]);
-  }
 
-  @Get()
-  getHome(): string {
-    return `
+    @Get()
+    getHome(): string {
+        return `
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -137,5 +107,5 @@ export class AppController {
         </body>
       </html>
     `;
-  }
+    }
 }

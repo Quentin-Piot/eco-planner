@@ -1,6 +1,5 @@
 import {Module} from "@nestjs/common";
 import {JwtModule} from "@nestjs/jwt";
-import {ClientsModule, Transport} from "@nestjs/microservices";
 import {PassportModule} from "@nestjs/passport";
 
 import {join} from "path";
@@ -17,26 +16,6 @@ import {AuthService} from "./auth.service";
             secret: process.env.JWT_SECRET,
             signOptions: {expiresIn: "5m"},
         }),
-        ClientsModule.register([
-            {
-                name: "USER_PACKAGE",
-                transport: Transport.GRPC,
-                options: {
-                    package: "user",
-                    protoPath: join(
-                        __dirname,
-                        "..",
-                        "..",
-                        "node_modules",
-                        "@quentinpiot",
-                        "protos",
-                        "user.proto",
-                    ),
-                    url:
-                    process.env.USER_SERVICE_URL
-                },
-            },
-        ]),
         PassportModule,
     ],
     controllers: [AuthController],

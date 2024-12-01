@@ -10,7 +10,7 @@ RUN npm i -g turbo
 
 COPY . .
 
-RUN turbo prune api-gateway --docker
+RUN turbo prune backend --docker
 
 # Phase d'installation
 FROM base AS installer
@@ -28,7 +28,7 @@ COPY --from=builder /app/out/pnpm-lock.yaml .
 RUN pnpm install --frozen-lockfile
 
 
-RUN turbo run build --filter=api-gateway
+RUN turbo run build --filter=backend
 
 
 # Phase d'exécution
@@ -41,11 +41,9 @@ RUN pnpm config set store-dir ~/.pnpm-store
 
 COPY --from=installer /app ./
 
-COPY --from=installer /app/packages/protos/generated ./apps/backend/api-gateway/node_modules/@quentinpiot/protos/generated
-COPY --from=installer /app/packages/protos/package.json ./apps/backend/api-gateway/node_modules/@quentinpiot/protos/package.json
-COPY --from=installer /app/packages/dtos/dist ./apps/backend/api-gateway/node_modules/@quentinpiot/dtos/dist
-COPY --from=installer /app/packages/dtos/package.json ./apps/backend/api-gateway/node_modules/@quentinpiot/dtos/package.json
+COPY --from=installer /app/packages/dtos/dist ./apps/backend/backend/node_modules/@quentinpiot/dtos/dist
+COPY --from=installer /app/packages/dtos/package.json ./apps/backend/backend/node_modules/@quentinpiot/dtos/package.json
 
 EXPOSE 3000
 
-CMD ["node", "apps/backend/api-gateway/dist/main.js"]
+CMD ["node", "apps/backend/backend/dist/main.js"]
