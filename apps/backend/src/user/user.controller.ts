@@ -2,7 +2,7 @@ import {Body, Controller, Get, Post, Req, UseGuards, UseInterceptors,} from "@ne
 
 import {CreateUserDto} from "@quentinpiot/dtos";
 
-import {JwtAuthGuard} from "@/auth/jwt-auth.guard";
+import {JwtAuthGuard} from "@/auth/guards/jwt-auth.guard";
 import {UserService} from "@/user/user.service";
 
 

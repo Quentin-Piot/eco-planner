@@ -4,9 +4,9 @@ import {PassportModule} from "@nestjs/passport";
 
 import {join} from "path";
 
-import {JwtStrategy} from "@/auth/jwt.strategy";
-import {LocalEmailStrategy} from "@/auth/local-email.strategy";
-import {LocalPhoneStrategy} from "@/auth/local-phone.strategy";
+import {JwtStrategy} from "@/auth/strategies/jwt.strategy";
+import {LocalEmailStrategy} from "@/auth/strategies/local-email.strategy";
+import {LocalPhoneStrategy} from "@/auth/strategies/local-phone.strategy";
 import {AuthController} from "./auth.controller";
 import {AuthService} from "./auth.service";
 

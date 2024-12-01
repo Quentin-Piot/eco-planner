@@ -1,14 +1,19 @@
-import {Controller, Get} from "@nestjs/common";
+import { Controller, Get } from "@nestjs/common";
 
 @Controller("")
 export class AppController {
-    constructor() {
-    }
+  constructor() {
+  }
 
 
-    @Get()
-    getHome(): string {
-        return `
+  @Get("health")
+  health() {
+    return { message: "The API is healthy" };
+  }
+
+  @Get()
+  getHome(): string {
+    return `
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -90,6 +95,13 @@ export class AppController {
   height: 50vh;  }
 }
 
+.docs_button {
+text-align: center;
+padding: 6px 12px;
+background-color: black;
+border-radius: 6px;
+}
+
 
 /* This is just to transition when you change the viewport size. */
 * {
@@ -101,11 +113,12 @@ export class AppController {
         <body>
           <div class="gradient"></div>
           <div class="container">
-            <h2 class="welcome">Building in progress</h2>
+            <h2 class="welcome">Eco-Planner API</h2>
+            <a href="/api" class="docs_button">Read the docs</a>
             <p style="font-size: 0">Quentin Piot</p>
           </div>
         </body>
       </html>
     `;
-    }
+  }
 }

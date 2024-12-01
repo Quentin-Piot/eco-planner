@@ -5,7 +5,7 @@ import type {Request} from "express";
 import {LoginResponseDto,} from "@quentinpiot/dtos";
 
 import {AuthService} from "@/auth/auth.service";
-import {LocalEmailAuthGuard} from "@/auth/local-email-auth.guard";
+import {LocalEmailAuthGuard} from "@/auth/guards/local-email-auth.guard";
 
 @Controller("auth")
 export class AuthController {

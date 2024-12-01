@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "eco-planner",
   "private": true,
   "scripts": {
     "build": "turbo build",
