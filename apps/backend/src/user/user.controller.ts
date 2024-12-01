@@ -22,7 +22,7 @@ export class UserController {
     @UseGuards(JwtAuthGuard)
     async getMe(@Req() request: any) {
         const userInfos = request.user;
-        return this.userService.getUser({
+        return this.userService.getUserByEmailOrPhoneNumber({
             email: userInfos.email,
             phoneNumber: userInfos.phoneNumber,
         });

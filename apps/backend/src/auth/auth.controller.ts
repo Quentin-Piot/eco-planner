@@ -2,7 +2,7 @@ import {Controller, Post, Req, UseGuards} from "@nestjs/common";
 
 import type {Request} from "express";
 
-import {SignInResponseDto,} from "@quentinpiot/dtos";
+import {LoginResponseDto,} from "@quentinpiot/dtos";
 
 import {AuthService} from "@/auth/auth.service";
 import {LocalEmailAuthGuard} from "@/auth/local-email-auth.guard";
@@ -16,7 +16,7 @@ export class AuthController {
 
     @Post()
     @UseGuards(LocalEmailAuthGuard)
-    async login(@Req() req: Request): Promise<SignInResponseDto> {
+    async login(@Req() req: Request): Promise<LoginResponseDto> {
         return this.service.login(req.user);
     }
 }

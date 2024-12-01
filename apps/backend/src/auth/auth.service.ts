@@ -1,7 +1,7 @@
 import {Injectable} from "@nestjs/common";
 import {JwtService} from "@nestjs/jwt";
 
-import {CreateUserResponse, EmailPhoneNumberPasswordDto, SignInResponseDto,} from "@quentinpiot/dtos";
+import {CreateUserResponse, EmailPhoneNumberPasswordDto, LoginResponseDto,} from "@quentinpiot/dtos";
 import {UserService} from "@/user/user.service";
 
 @Injectable()
@@ -16,7 +16,7 @@ export class AuthService {
 
     async validateUser(
         emailPhoneNumberPasswordDto: EmailPhoneNumberPasswordDto,
-    ): Promise<CreateUserResponse> {
+    ) {
         return await this.userService.checkPasswordCombination({
             password: emailPhoneNumberPasswordDto.password,
             email: emailPhoneNumberPasswordDto.email,
@@ -31,6 +31,6 @@ export class AuthService {
             isEmail: !!user.email,
         };
         const accessToken = this.jwtService.sign(payload);
-        return new SignInResponseDto(accessToken);
+        return new LoginResponseDto(accessToken);
     }
 }

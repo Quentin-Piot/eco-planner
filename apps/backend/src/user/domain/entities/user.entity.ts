@@ -1,14 +1,4 @@
-export class UserEntityWithoutId {
-  constructor(
-    public readonly email: string,
-    public readonly password: string,
-    public readonly phoneNumber: string,
-    public readonly createdAt?: Date,
-    public readonly updatedAt?: Date,
-  ) {}
-}
-
-export class UserEntity extends UserEntityWithoutId {
+export class UserEntity {
   constructor(
     public readonly id: string,
     public readonly email: string,
@@ -17,6 +7,6 @@ export class UserEntity extends UserEntityWithoutId {
     public readonly createdAt?: Date,
     public readonly updatedAt?: Date,
   ) {
-    super(email, password, phoneNumber, createdAt, updatedAt);
   }
 }
+

@@ -1,17 +1,17 @@
 import { UserEntity } from "../../domain/entities/user.entity";
 import { IUserRepository } from "../../interfaces/user-repository.interface";
-import { GetUserQuery } from "../get-user.query";
+import { GetUserByEmailOrPhoneNumberQuery } from "../get-user-by-email-or-phone-number.query";
 
 import { Inject, NotFoundException } from "@nestjs/common";
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 
-@QueryHandler(GetUserQuery)
-export class GetUserHandler implements IQueryHandler<GetUserQuery> {
+@QueryHandler(GetUserByEmailOrPhoneNumberQuery)
+export class GetUserByEmailOrPhoneNumberHandler implements IQueryHandler<GetUserByEmailOrPhoneNumberQuery> {
   constructor(
     @Inject("IUserRepository") private readonly userRepository: IUserRepository,
   ) {}
 
-  async execute(query: GetUserQuery): Promise<UserEntity> {
+  async execute(query: GetUserByEmailOrPhoneNumberQuery): Promise<UserEntity> {
     const user = await this.userRepository.findByEmailOrPhoneNumber(
       query.email,
       query.phoneNumber,

@@ -3,14 +3,14 @@ import {
     CreateUserDto,
     CreateUserResponse,
     EmailPhoneNumberPasswordDto,
-    GetUserDto,
+    GetUserByEmailOrByNameDto,
     GetUserResponse
 } from "@quentinpiot/dtos";
 import {CommandBus, QueryBus} from "@nestjs/cqrs";
 
 import {CreateUserCommand} from "@/user/commands/create-user.command";
 import {CheckPasswordCombinationQuery} from "@/user/queries/check-password-combination.query";
-import {GetUserQuery} from "@/user/queries/get-user.query";
+import {GetUserByEmailOrPhoneNumberQuery} from "@/user/queries/get-user-by-email-or-phone-number.query";
 import {UserEntity} from "@/user/domain/entities/user.entity";
 
 @Injectable()
@@ -40,9 +40,9 @@ export class UserService {
         };
     }
 
-    async getUser(request: GetUserDto): Promise<GetUserResponse> {
+    async getUserByEmailOrPhoneNumber(request: GetUserByEmailOrByNameDto): Promise<GetUserResponse> {
         const user = await this.queryBus.execute(
-            new GetUserQuery(request.email, request.phoneNumber),
+            new GetUserByEmailOrPhoneNumberQuery(request.email, request.phoneNumber),
         );
 
         return {
@@ -56,9 +56,7 @@ export class UserService {
 
     async checkPasswordCombination(
         request: EmailPhoneNumberPasswordDto,
-    ): Promise<CreateUserResponse> {
-        /*  if (!request.email && !request.phoneNumber)
-          throw new BadRequestException("Email or Phone Number is required");*/
+    ) {
         const user = await this.queryBus.execute(
             new CheckPasswordCombinationQuery(
                 request.password,
@@ -66,6 +64,7 @@ export class UserService {
                 request.phoneNumber,
             ),
         );
+
 
         return {
             id: user.id,
