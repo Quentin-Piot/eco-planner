@@ -1,8 +1,7 @@
-import { HealthCheckResponse, HealthDetails } from "@quentinpiot/dtos";
 
-import api from "@/api/helpers/api.ts";
+import api from "@/api/helpers/api";
 
-export const getHealthStatus = async (): Promise<HealthDetails> => {
-  const healthCheckResponse = await api.get<HealthCheckResponse>("health");
-  return healthCheckResponse.details;
+export const getHealthStatus = async (): Promise<boolean> => {
+  const healthCheckResponse = await api.get("health");
+  return !!healthCheckResponse;
 };

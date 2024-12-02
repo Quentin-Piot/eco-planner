@@ -27,23 +27,21 @@ const isServiceUp = (health: any, service: string): boolean => {
 };
 
 export default function Home() {
-  const { data } = useQuery({
+  const { data: isHealthy } = useQuery({
     queryKey: ["health"],
+    initialData: false,
     queryFn: getHealthStatus,
     refetchInterval: 5000,
   });
   return (
     <MainLayout><Container width="md">
-      <Card.Root width="100%" >
-        <Card.Body >
-          <Card.Title mt="2" textAlign="center" >
+      <Card.Root width="100%">
+        <Card.Body>
+          <Card.Title mt="2" textAlign="center">
             Backend status
           </Card.Title>
-          <Separator  mt={1} mb={6} borderColor="gray.400" />
-          <Item isUp={!!data}> API Gateway </Item>
-          <Item isUp={isServiceUp(data, "user_service")}>
-            User service
-          </Item>
+          <Separator mt={1} mb={6} borderColor="gray.400" />
+          <Item isUp={isHealthy}> Eco Planner API </Item>
         </Card.Body>
       </Card.Root></Container>
     </MainLayout>
