@@ -40,32 +40,32 @@ export const shortPrompt = (infos: any) => {
   The output should follow the rules in the following json :
   
   {
-    "stages": [
-      {
-        "city": "string",
-        "country": "string",
-        "totalNumberOfDays": "number",
-        "journey" : {
-         "transportationType": "string",
-         "price": "number",
-         "duration": "number",
+  "stages": [
+    {
+      "city": "string",
+      "country": "string",
+      "totalNumberOfDays": "number",
+      "journey" : {
+        "transportationType": "string",
+        "price": "number",
+        "duration": "number"
+      },
+      "dailyBudget": {
+        "accommodation": {
+          "minBudget": "number",
+          "maxBudget": "number"
         },
-        "dailyBudget": {
-          "accommodation": {
-            "minBudget": "number",
-            "maxBudget": "number"
-          },
-          "food": {
-            "minBudget": "number",
-            "maxBudget": "number"
-          }
-        },
-        "activities": [
-          {
-            "name": "string",
-            "price": "number"
-          }
-        ]
-      }
-    ]
-  }`;
+        "food": {
+          "minBudget": "number",
+          "maxBudget": "number"
+        }
+      },
+      "activities": [
+        {
+          "name": "string",
+          "price": "number"
+        }
+      ]
+    }
+  ]
+}`;

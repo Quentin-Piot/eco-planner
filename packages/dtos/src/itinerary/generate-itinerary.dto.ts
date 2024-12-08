@@ -8,6 +8,11 @@ export enum TravelPreference {
   "HIKING" = "HIKING",
 }
 
+export enum TransportationType {
+  "PRIVATE_TRANSPORT" = "PRIVATE_TRANSPORT",
+  "PUBLIC_TRANSPORT" = "PUBLIC_TRANSPORT"
+}
+
 export class GenerateItineraryDto {
 
   @IsString()
@@ -25,10 +30,42 @@ export class GenerateItineraryDto {
 
   @IsString()
   @IsOptional()
-  destination: string;
+  mandatoryStage?: string;
 
   @IsEnum(TravelPreference, { each: true })
   @IsNotEmpty()
   travelPreferences: TravelPreference[];
 
+  @IsEnum(TransportationType)
+  @IsNotEmpty()
+  transportationType: TransportationType;
+
+
+}
+
+export class ItineraryResponse {
+  stages: Array<{
+    city: string
+    country: string
+    totalNumberOfDays: string
+    journey: {
+      transportationType: string
+      price: string
+      duration: string
+    }
+    dailyBudget: {
+      accommodation: {
+        minBudget: string
+        maxBudget: string
+      }
+      food: {
+        minBudget: string
+        maxBudget: string
+      }
+    }
+    activities: Array<{
+      name: string
+      price: string
+    }>
+  }>;
 }

@@ -1,10 +1,11 @@
-import { Card, Container, Flex, Separator, Text } from "@chakra-ui/react";
+import { Container, Flex, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { PropsWithChildren } from "react";
 import { LuCheckCircle, LuStopCircle } from "react-icons/lu";
 
 import { getHealthStatus } from "@/api/health/health.api";
 import MainLayout from "@/templates/main.layout";
+import { GlassCard } from "@/components/ui/glass-card";
 
 const Indicator = ({ isUp }: { isUp: boolean }) =>
   isUp ? (
@@ -26,7 +27,7 @@ const isServiceUp = (health: any, service: string): boolean => {
   return health[service] && health[service].servingStatus === "SERVING";
 };
 
-export default function Home() {
+export default function Status() {
   const { data: isHealthy } = useQuery({
     queryKey: ["health"],
     initialData: false,
@@ -35,15 +36,10 @@ export default function Home() {
   });
   return (
     <MainLayout><Container width="md">
-      <Card.Root width="100%">
-        <Card.Body>
-          <Card.Title mt="2" textAlign="center">
-            Backend status
-          </Card.Title>
-          <Separator mt={1} mb={6} borderColor="gray.400" />
-          <Item isUp={isHealthy}> Eco Planner API </Item>
-        </Card.Body>
-      </Card.Root></Container>
+      <GlassCard title={"Status"}>
+        <Item isUp={isHealthy}> Eco Planner API </Item>
+      </GlassCard>
+    </Container>
     </MainLayout>
   );
 };

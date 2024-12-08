@@ -29,7 +29,7 @@ export class GoogleApiService {
   async generateItinerary(infos: GenerateItineraryDto) {
 
     const startingPlace = infos.startingPlace;
-    const destination = infos.destination;
+    const destination = infos.mandatoryStage;
     const totalNumberOfDays = infos.totalNumberOfDays;
     const travelPreferences = infos.travelPreferences;
 
