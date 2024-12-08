@@ -1,0 +1,23 @@
+meta {
+  name: Generate journey
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:3000/itinerary/journey
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "journeys": [
+      {
+        "from": "Biarritz",
+        "to": "Paris",
+        "transportationType": "PUBLIC_TRANSPORT"
+      }
+    ]
+  }
+}

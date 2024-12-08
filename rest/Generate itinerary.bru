@@ -1,0 +1,22 @@
+meta {
+  name: Generate itinerary
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:3000/itinerary/generate
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    
+    "startingPlace" : "Paris, France",
+    "transportationType" : "PRIVATE_TRANSPORT",
+    "totalNumberOfDays" : 10,
+    "travelPreferences": ["BEACH", "HIKING"],
+    "mandatoryStage" :  null,
+  }
+}
