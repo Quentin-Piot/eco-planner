@@ -1,12 +1,15 @@
+import { Mistral } from "@mistralai/mistralai";
+import {
+  ResponseFormats,
+  UserMessageRole,
+} from "@mistralai/mistralai/models/components";
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { GenerateItineraryDto } from "@quentinpiot/dtos";
-import { Mistral } from "@mistralai/mistralai";
-import { ResponseFormats, UserMessageRole } from "@mistralai/mistralai/models/components";
+
 import { shortPrompt } from "@/external-api/itinerary/itinerary-prompt";
 
 @Injectable()
 export class MistralApiService {
-
   private mistral: Mistral;
 
   constructor() {
@@ -15,18 +18,13 @@ export class MistralApiService {
     });
   }
 
-
   async generateItinerary(infos: GenerateItineraryDto) {
-
-
     try {
-
       const result = await this.mistral.agents.complete({
         agentId: "ag:87fe0e84:20241203:ecoplanner:27346159",
         messages: [
           {
-            content:
-              shortPrompt(infos),
+            content: shortPrompt(infos),
             role: UserMessageRole.User,
           },
         ],
@@ -43,6 +41,5 @@ export class MistralApiService {
         message: "Error with Mistral API",
       });
     }
-
   }
 }

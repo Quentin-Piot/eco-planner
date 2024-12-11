@@ -1,19 +1,24 @@
-import { Container, Flex, Text } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
 import { PropsWithChildren } from "react";
 import { LuCheckCircle, LuStopCircle } from "react-icons/lu";
 
+import { Container, Flex, Text } from "@chakra-ui/react";
+import { GlassCard } from "@/components/ui/glass-card";
+
+import { useQuery } from "@tanstack/react-query";
+
 import { getHealthStatus } from "@/api/health/health.api";
 import MainLayout from "@/templates/main.layout";
-import { GlassCard } from "@/components/ui/glass-card";
 
 const Indicator = ({ isUp }: { isUp: boolean }) =>
   isUp ? (
-
-    <Text color={"green.500"}><LuCheckCircle /></Text>
+    <Text color={"green.500"}>
+      <LuCheckCircle />
+    </Text>
   ) : (
-
-    <Text color={"red.500"}> <LuStopCircle /></Text>
+    <Text color={"red.500"}>
+      {" "}
+      <LuStopCircle />
+    </Text>
   );
 const Item = ({ isUp, children }: PropsWithChildren<{ isUp: boolean }>) => (
   <Flex alignItems="center" gap={3}>
@@ -35,12 +40,12 @@ export default function Status() {
     refetchInterval: 5000,
   });
   return (
-    <MainLayout><Container width="md">
-      <GlassCard title={"Status"}>
-        <Item isUp={isHealthy}> Eco Planner API </Item>
-      </GlassCard>
-    </Container>
+    <MainLayout>
+      <Container width="md">
+        <GlassCard title={"Status"}>
+          <Item isUp={isHealthy}> Eco Planner API </Item>
+        </GlassCard>
+      </Container>
     </MainLayout>
   );
-};
-
+}

@@ -1,16 +1,44 @@
 {
-  "extends": "@quentinpiot/configs/typescript/nest.json",
   "compilerOptions": {
-    "outDir": "./dist",
+    "declaration": true,
+    "emitDeclarationOnly": false,
+    "outDir": "dist",
+    "target": "ES2021",
+    "module": "CommonJS",
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
+    "strictPropertyInitialization": false,
+    "strict": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
-  "typeRoots" : [
+  "typeRoots": [
     "./src/index.d.ts",
     "node_modules/@types"
   ],
-  "include": ["src"],
-  "exclude": ["node_modules","dist"]
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

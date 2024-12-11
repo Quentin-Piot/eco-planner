@@ -6,7 +6,8 @@
 
 */
 -- AlterTable
-ALTER TABLE "User" ADD COLUMN     "phoneNumber" TEXT NOT NULL;
+ALTER TABLE "User"
+    ADD COLUMN "phoneNumber" TEXT NOT NULL;
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_phoneNumber_key" ON "User"("phoneNumber");
+CREATE UNIQUE INDEX "User_phoneNumber_key" ON "User" ("phoneNumber");

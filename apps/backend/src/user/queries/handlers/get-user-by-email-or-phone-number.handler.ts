@@ -1,12 +1,14 @@
+import { Inject, NotFoundException } from "@nestjs/common";
+import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
+
 import { UserEntity } from "../../domain/entities/user.entity";
 import { IUserRepository } from "../../interfaces/user-repository.interface";
 import { GetUserByEmailOrPhoneNumberQuery } from "../get-user-by-email-or-phone-number.query";
 
-import { Inject, NotFoundException } from "@nestjs/common";
-import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-
 @QueryHandler(GetUserByEmailOrPhoneNumberQuery)
-export class GetUserByEmailOrPhoneNumberHandler implements IQueryHandler<GetUserByEmailOrPhoneNumberQuery> {
+export class GetUserByEmailOrPhoneNumberHandler
+  implements IQueryHandler<GetUserByEmailOrPhoneNumberQuery>
+{
   constructor(
     @Inject("IUserRepository") private readonly userRepository: IUserRepository,
   ) {}

@@ -1,10 +1,5 @@
-import {
-  Inject,
-  NotFoundException,
-  UnauthorizedException,
-} from "@nestjs/common";
+import { Inject, UnauthorizedException } from "@nestjs/common";
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-
 import * as argon2 from "argon2";
 
 import { UserEntity } from "@/user/domain/entities/user.entity";

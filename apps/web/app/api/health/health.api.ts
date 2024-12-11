@@ -1,4 +1,3 @@
-
 import api from "@/api/helpers/api";
 
 export const getHealthStatus = async (): Promise<boolean> => {

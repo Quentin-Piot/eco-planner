@@ -7,10 +7,7 @@ import { IUserRepository } from "@/user/interfaces/user-repository.interface";
 
 @Injectable()
 export class UserRepository implements IUserRepository {
-  constructor(
-    //private prisma: PrismaService
-  ) {
-  }
+  constructor() {} //private prisma: PrismaService
 
   async create(user: Omit<UserEntity, "id">): Promise<UserEntity> {
     /*  const created = await this.prisma.user.create({

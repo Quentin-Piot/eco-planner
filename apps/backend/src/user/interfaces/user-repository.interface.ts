@@ -1,7 +1,8 @@
 import { UserEntity } from "@/user/domain/entities/user.entity";
 
 export interface IUserRepository {
-  create(user: Omit<UserEntity, 'id'>): Promise<UserEntity>;
+  create(user: Omit<UserEntity, "id">): Promise<UserEntity>;
+
   findByEmailOrPhoneNumber(
     email: string,
     phoneNumber: string,

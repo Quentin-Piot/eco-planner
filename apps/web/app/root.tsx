@@ -1,26 +1,35 @@
-import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import {
+  isRouteErrorResponse,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+} from "react-router";
+
 import { Provider } from "@/components/ui/provider";
 
-import type { Route } from "./+types/root";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 
-
+import type { Route } from "./+types/root";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-    <head>
-      <meta charSet="utf-8" />
-      <meta name="description" content="Bienvenue sur EcoPlanner, le créateur d'itinéraires eco-responsables en France" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <Meta />
-    </head>
-    <body>
-    {children}
-    <ScrollRestoration />
-    <Scripts />
-    </body>
+      <head>
+        <meta charSet="utf-8" />
+        <meta
+          name="description"
+          content="Bienvenue sur EcoPlanner, le créateur d'itinéraires eco-responsables en France"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+      </head>
+      <body>
+        {children}
+        <ScrollRestoration />
+        <Scripts />
+      </body>
     </html>
   );
 }
@@ -28,9 +37,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
 const queryClient = new QueryClient();
 
 export default function App() {
-  return <QueryClientProvider client={queryClient}><Provider>
-    <ThemeProvider disableTransitionOnChange
-                   attribute="class"><Outlet /></ThemeProvider></Provider></QueryClientProvider>;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Provider>
+        <ThemeProvider disableTransitionOnChange attribute="class">
+          <Outlet />
+        </ThemeProvider>
+      </Provider>
+    </QueryClientProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

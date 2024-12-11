@@ -2,7 +2,7 @@ export const shortPrompt = (infos: any) => {
   return `Generate me an itinerary according to the instructions system prompt and the following parameters : ${JSON.stringify(infos, null, 2)}`;
 };
 
-  const longPrompt = `
+const longPrompt = `
   Generate an eco-friendly itinerary in France, starting and ending in the same city 'startingPlace' as a circuit. 
   - The number of days to spend on each city should be realistic according to travel guides and 'totalNumberOfDays' travelling. Minimum 2.
   - The number of days spend in starting city should be 0. The number of days spend in ending city at the end of circuit should be 1.

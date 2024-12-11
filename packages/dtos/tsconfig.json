@@ -1,12 +1,22 @@
 {
-  "extends": "@quentinpiot/configs/typescript/base-common-js.json",
   "compilerOptions": {
-    "outDir": "./dist",
+    "declaration": true,
+    "emitDeclarationOnly": false,
+    "outDir": "dist",
+    "target": "ES2021",
+    "module": "CommonJS",
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "strictPropertyInitialization": false,
+    "strict": true,
   },
-  "include": ["src"],
-  "exclude": ["node_modules","dist"]
+  "exclude": [
+    "node_modules"
+  ]
 }

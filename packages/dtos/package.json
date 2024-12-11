@@ -19,7 +19,6 @@
     "class-validator": "^0.14.1"
   },
   "devDependencies": {
-    "@quentinpiot/configs": "workspace:*",
     "typescript": "^5.7.2"
   }
 }

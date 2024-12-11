@@ -5,10 +5,18 @@ if (!API_BASE_URL) {
 }
 
 class ApiHelper {
-  private baseUrl: string;
+  private readonly baseUrl: string;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
+  }
+
+  async get<T>(url: string): Promise<T> {
+    return this.request<T>("GET", url);
+  }
+
+  async post<T>(url: string, body: unknown): Promise<T> {
+    return this.request<T>("POST", url, body);
   }
 
   private async request<T>(
@@ -29,28 +37,16 @@ class ApiHelper {
       options.body = JSON.stringify(body);
     }
 
-    try {
-      const response = await fetch(`${this.baseUrl}/${url}`, options);
+    const response = await fetch(`${this.baseUrl}/${url}`, options);
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(
-          error.message || `Request failed with status ${response.status}`,
-        );
-      }
-
-      return (await response.json()) as T;
-    } catch (error) {
-      throw error;
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(
+        error.message || `Request failed with status ${response.status}`,
+      );
     }
-  }
 
-  async get<T>(url: string): Promise<T> {
-    return this.request<T>("GET", url);
-  }
-
-  async post<T>(url: string, body: unknown): Promise<T> {
-    return this.request<T>("POST", url, body);
+    return (await response.json()) as T;
   }
 }
 

@@ -1,19 +1,20 @@
 import { Schema, SchemaType } from "@google/generative-ai";
 
-
 export const itinerarySchema: Schema = {
   type: SchemaType.OBJECT,
   description: "The generated eco-responsible itinerary",
   properties: {
     stages: {
       type: SchemaType.ARRAY,
-      description: "The stages of the itinerary, each representing a city visit and its details",
+      description:
+        "The stages of the itinerary, each representing a city visit and its details",
       items: {
         type: SchemaType.OBJECT,
         properties: {
           position: {
             type: SchemaType.INTEGER,
-            description: "The position of the city in the trip : starting point is zero",
+            description:
+              "The position of the city in the trip : starting point is zero",
           },
           city: {
             type: SchemaType.STRING,
@@ -33,30 +34,31 @@ export const itinerarySchema: Schema = {
             properties: {
               accommodation: {
                 type: SchemaType.OBJECT,
-                description: "The daily accomodation budget of this stage in euros",
+                description:
+                  "The daily accomodation budget of this stage in euros",
                 properties: {
-                  minBudget:{
+                  minBudget: {
                     type: SchemaType.NUMBER,
                     description: "The daily budget for low cost accommodation",
                   },
-                  maxBudget:{
+                  maxBudget: {
                     type: SchemaType.NUMBER,
                     description: "The daily budget for mid cost accommodation",
-                  }
+                  },
                 },
               },
               food: {
                 type: SchemaType.OBJECT,
                 description: "The daily food budget of this stage in euros",
                 properties: {
-                  minBudget:{
+                  minBudget: {
                     type: SchemaType.NUMBER,
                     description: "The daily budget for low cost food",
                   },
-                  maxBudget:{
+                  maxBudget: {
                     type: SchemaType.NUMBER,
                     description: "The daily budget for mid cost food",
-                  }
+                  },
                 },
               },
             },
@@ -84,11 +86,13 @@ export const itinerarySchema: Schema = {
             properties: {
               transportMode: {
                 type: SchemaType.STRING,
-                description: "The primary mode of transport for this journey (e.g., 'BUS', 'TRAIN', 'CARPOOL', 'BIKE')",
+                description:
+                  "The primary mode of transport for this journey (e.g., 'BUS', 'TRAIN', 'CARPOOL', 'BIKE')",
               },
               distance: {
                 type: SchemaType.NUMBER,
-                description: "The distance covered in this journey (in kilometers)",
+                description:
+                  "The distance covered in this journey (in kilometers)",
               },
               duration: {
                 type: SchemaType.NUMBER,
@@ -100,7 +104,8 @@ export const itinerarySchema: Schema = {
               },
               numberOfTransfers: {
                 type: SchemaType.INTEGER,
-                description: "The number of transfers in the journey to reach the stage",
+                description:
+                  "The number of transfers in the journey to reach the stage",
               },
               transfers: {
                 type: SchemaType.ARRAY,
@@ -118,7 +123,8 @@ export const itinerarySchema: Schema = {
                     },
                     distance: {
                       type: SchemaType.NUMBER,
-                      description: "Distance covered in this transfer (in kilometers)",
+                      description:
+                        "Distance covered in this transfer (in kilometers)",
                     },
                   },
                 },
@@ -130,7 +136,8 @@ export const itinerarySchema: Schema = {
     },
     totalItineraryCarbonImpact: {
       type: SchemaType.NUMBER,
-      description: "The total carbon footprint (in kg) for the entire itinerary",
+      description:
+        "The total carbon footprint (in kg) for the entire itinerary",
     },
     estimatedCost: {
       type: SchemaType.NUMBER,
@@ -138,8 +145,6 @@ export const itinerarySchema: Schema = {
     },
   },
 };
-
-
 
 export const itineraryJson = `
 {
@@ -188,4 +193,4 @@ export const itineraryJson = `
 }
 
 
-`
+`;
