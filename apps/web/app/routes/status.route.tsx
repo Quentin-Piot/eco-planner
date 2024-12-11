@@ -1,11 +1,11 @@
-import Status from "@/pages/status";
+import StatusPage from "@/pages/status.page";
 
 import { Route } from "../../.react-router/types/app/+types/root";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "Status | EcoPlanner" }];
+  return [{ title: "StatusPage | EcoPlanner" }];
 }
 
 export default function HomeRoute() {
-  return <Status />;
+  return <StatusPage />;
 }

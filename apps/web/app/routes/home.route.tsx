@@ -1,4 +1,4 @@
-import Home from "@/pages/home";
+import HomePage from "@/pages/home.page";
 
 import { Route } from "../../.react-router/types/app/+types/root";
 
@@ -7,5 +7,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function HomeRoute() {
-  return <Home />;
+  return <HomePage />;
 }

@@ -7,7 +7,6 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { useQuery } from "@tanstack/react-query";
 
 import { getHealthStatus } from "@/api/health/health.api";
-import MainLayout from "@/templates/main.layout";
 
 const Indicator = ({ isUp }: { isUp: boolean }) =>
   isUp ? (
@@ -27,12 +26,7 @@ const Item = ({ isUp, children }: PropsWithChildren<{ isUp: boolean }>) => (
   </Flex>
 );
 
-const isServiceUp = (health: any, service: string): boolean => {
-  if (!health) return false;
-  return health[service] && health[service].servingStatus === "SERVING";
-};
-
-export default function Status() {
+export default function StatusPage() {
   const { data: isHealthy } = useQuery({
     queryKey: ["health"],
     initialData: false,
@@ -40,12 +34,10 @@ export default function Status() {
     refetchInterval: 5000,
   });
   return (
-    <MainLayout>
-      <Container width="md">
-        <GlassCard title={"Status"}>
-          <Item isUp={isHealthy}> Eco Planner API </Item>
-        </GlassCard>
-      </Container>
-    </MainLayout>
+    <Container width="md">
+      <GlassCard title={"StatusPage"}>
+        <Item isUp={isHealthy}> Eco Planner API </Item>
+      </GlassCard>
+    </Container>
   );
 }

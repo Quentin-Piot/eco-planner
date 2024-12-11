@@ -14,7 +14,7 @@ export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
       <Card.Root
         ref={ref}
         {...rest}
-        background="rgba(255, 255, 255, 0.8)"
+        background="rgba(255, 255, 255, 0.9)"
         borderRadius="16px"
         boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
         backdropFilter="blur(5px)"
@@ -34,3 +34,46 @@ export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
     );
   },
 );
+
+export interface GlassCardNoChakraProps {
+  children: ReactNode;
+  footer?: ReactNode;
+  title?: string;
+}
+
+export const GlassCardNoChakra = ({
+  children,
+  title,
+  footer,
+}: GlassCardNoChakraProps) => {
+  return (
+    <div
+      style={{
+        background: "rgba(255, 255, 255, 0.8)",
+        borderRadius: "16px",
+        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+        backdropFilter: "blur(5px)",
+        border: "1px solid rgba(255, 255, 255, 0.3)",
+        padding: "1rem",
+      }}
+    >
+      <div
+        style={{ textAlign: "center", fontWeight: 500, marginBottom: "1.5rem" }}
+      >
+        {title}
+      </div>
+      <div>{children}</div>
+      {footer && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            paddingTop: "1rem",
+          }}
+        >
+          {footer}
+        </div>
+      )}
+    </div>
+  );
+};
