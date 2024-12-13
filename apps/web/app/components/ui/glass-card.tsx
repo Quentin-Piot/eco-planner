@@ -55,13 +55,14 @@ export const GlassCardNoChakra = ({
         backdropFilter: "blur(5px)",
         border: "1px solid rgba(255, 255, 255, 0.3)",
         padding: "1rem",
+        fontFamily: "System Font, Verdana",
       }}
     >
-      <div
+      <h3
         style={{ textAlign: "center", fontWeight: 500, marginBottom: "1.5rem" }}
       >
         {title}
-      </div>
+      </h3>
       <div>{children}</div>
       {footer && (
         <div

@@ -30,12 +30,17 @@ export default function ErrorPage({ message, details, stack }: ErrorPageProps) {
     >
       <Background />
       <GlassCardNoChakra title={message}>
-        <p>{details}</p>
-        {stack && (
-          <pre style={{ width: "100%", padding: "1rem", overflowX: "auto" }}>
-            <code>{stack}</code>
-          </pre>
-        )}
+        <div style={{ textAlign: "center" }}>
+          {details}
+          {stack && (
+            <pre style={{ width: "100%", padding: "1rem", overflowX: "auto" }}>
+              <code>{stack}</code>
+            </pre>
+          )}
+          <br />
+          <br />
+          <a href={"/"}>Retour à la page d'accueil</a>
+        </div>
       </GlassCardNoChakra>
     </div>
   );

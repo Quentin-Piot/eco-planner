@@ -21,7 +21,6 @@ import {
 import { useMutation } from "@tanstack/react-query";
 
 import { generateItinerary } from "@/api/itinerary/itinerary.api";
-import MainLayout from "@/layouts/main.layout";
 
 const transportationTypes = createListCollection({
   items: [
@@ -35,6 +34,10 @@ type FormValues = {
   transportationType: [string];
   numberOfDays: number;
 };
+
+export async function loader() {
+  return { message: "Hello, world!" };
+}
 
 export default function HomePage() {
   const {
