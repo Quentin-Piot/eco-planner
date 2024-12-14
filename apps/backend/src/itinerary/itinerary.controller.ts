@@ -1,12 +1,13 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import { GenerateItineraryDto } from "@quentinpiot/dtos";
-import { GetJourneysDetailsDto } from "@quentinpiot/dtos/dist/itinerary/get-journeys-details.dto";
+import { GenerateItineraryDto } from "@/itinerary/dtos/generate-itinerary.dto";
+import {  GetJourneysDetailsDto } from  "@/itinerary/dtos/get-journeys-details.dto"
 
 import { ItineraryService } from "@/itinerary/itinerary.service";
 
 @Controller("itinerary")
 export class ItineraryController {
-  constructor(private readonly itineraryService: ItineraryService) {}
+  constructor(private readonly itineraryService: ItineraryService) {
+  }
 
   @Post("/generate")
   generateItinerary(@Body() generateItineraryDto: GenerateItineraryDto) {

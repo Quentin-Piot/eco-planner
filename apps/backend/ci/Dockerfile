@@ -41,8 +41,8 @@ RUN pnpm config set store-dir ~/.pnpm-store
 
 COPY --from=installer /app ./
 
-COPY --from=installer /app/packages/dtos/dist ./apps/backend/node_modules/@quentinpiot/dtos/dist
-COPY --from=installer /app/packages/dtos/package.json ./apps/backend/node_modules/@quentinpiot/dtos/package.json
+COPY --from=installer /app/packages/shared/dist ./apps/backend/node_modules/@quentinpiot/shared/dist
+COPY --from=installer /app/packages/shared/package.json ./apps/backend/node_modules/@quentinpiot/shared/package.json
 
 EXPOSE 3000
 

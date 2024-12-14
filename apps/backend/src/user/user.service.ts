@@ -1,15 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import {
-  CreateUserDto,
-  CreateUserResponse,
-  EmailPhoneNumberPasswordDto,
-  GetUserByEmailOrByNameDto,
-  GetUserResponse,
-} from "@quentinpiot/dtos";
 
 import { CreateUserCommand } from "@/user/commands/create-user.command";
 import { UserEntity } from "@/user/domain/entities/user.entity";
+import { CreateUserDto, CreateUserResponse } from "@/user/dtos/create-user.dto";
+import {
+  GetUserByEmailOrByNameDto,
+  GetUserResponse,
+} from "@/user/dtos/get-user.dto";
+import { EmailPhoneNumberPasswordDto } from "@/user/dtos/login.dto";
 import { CheckPasswordCombinationQuery } from "@/user/queries/check-password-combination.query";
 import { GetUserByEmailOrPhoneNumberQuery } from "@/user/queries/get-user-by-email-or-phone-number.query";
 

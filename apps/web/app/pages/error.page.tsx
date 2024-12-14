@@ -1,14 +1,13 @@
+import { redirect } from "react-router";
+
 import { Background } from "@/components/ui/background";
+import { GlassCardNoChakra } from "@/components/ui/glass-card";
 
 type ErrorPageProps = {
   message: string;
   details: string;
   stack?: string;
 };
-
-import { redirect } from "react-router";
-
-import { GlassCardNoChakra } from "@/components/ui/glass-card";
 
 export async function loader({}) {
   return redirect("/login");

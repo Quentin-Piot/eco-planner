@@ -4,7 +4,7 @@ import {
   UserMessageRole,
 } from "@mistralai/mistralai/models/components";
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
-import { GenerateItineraryDto } from "@quentinpiot/dtos";
+import { GenerateItineraryDto } from "@/itinerary/dtos/generate-itinerary.dto";
 
 import { shortPrompt } from "@/external-api/itinerary/itinerary-prompt";
 

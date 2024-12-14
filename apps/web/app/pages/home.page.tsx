@@ -1,4 +1,5 @@
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
+import { ActionFunctionArgs, Form } from "react-router";
 
 import {
   Container,
@@ -18,55 +19,82 @@ import {
   SelectValueText,
 } from "@/components/ui/select";
 
-import { useMutation } from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TransportationType } from "@quentinpiot/shared";
+import { getValidatedFormData, useRemixForm } from "remix-hook-form";
+import * as zod from "zod";
 
 import { generateItinerary } from "@/api/itinerary/itinerary.api";
 
+import type { Route } from "../+types/root";
+
 const transportationTypes = createListCollection({
   items: [
-    { label: "Transports en commun", value: "PUBLIC_TRANSPORT" },
-    { label: "Voiture", value: "PRIVATE_TRANSPORT" },
+    {
+      label: "Transports en commun",
+      value: TransportationType.PUBLIC_TRANSPORT,
+    },
+    { label: "Voiture", value: TransportationType.PRIVATE_TRANSPORT },
   ],
 });
 
-type FormValues = {
-  startingPlace: string;
-  transportationType: [string];
-  numberOfDays: number;
-};
-
-export async function loader() {
-  return { message: "Hello, world!" };
+export function meta({}: Route.MetaArgs) {
+  return [
+    {
+      title: "Eco Planner",
+      description: "Générer un itinéraire avec Eco Planner",
+    },
+  ];
 }
 
-export default function HomePage() {
+const schema = zod.object({
+  startingPlace: zod.string().min(1, "Veuillez renseigner une ville de départ"),
+  transportationType: zod.array(zod.nativeEnum(TransportationType)),
+  numberOfDays: zod.coerce
+    .number()
+    .int()
+    .positive()
+    .min(1, "Minimum de 1 jour")
+    .max(14, "Maximum de 14 jours"),
+});
+
+type FormData = zod.infer<typeof schema>;
+
+const resolver = zodResolver(schema);
+
+export const action = async ({ request }: ActionFunctionArgs) => {
   const {
-    register,
+    errors,
+    data,
+    receivedValues: defaultValues,
+  } = await getValidatedFormData<FormData>(request, resolver);
+
+  if (errors) {
+    return { errors, defaultValues };
+  }
+
+  return await generateItinerary({
+    transportationType: data.transportationType[0] as any,
+    totalNumberOfDays: data.numberOfDays,
+    startingPlace: data.startingPlace,
+    travelPreferences: [],
+  });
+};
+
+export default function HomePage({ actionData }: Route.ComponentProps) {
+  const {
     handleSubmit,
-    control,
     formState: { errors },
-  } = useForm<FormValues>({
+    register,
+    control,
+  } = useRemixForm<FormData>({
+    mode: "onSubmit",
+    resolver,
     defaultValues: {
-      startingPlace: "",
-      transportationType: ["PUBLIC_TRANSPORT"],
+      startingPlace: "Biarritz",
+      transportationType: [TransportationType.PUBLIC_TRANSPORT],
       numberOfDays: 7,
     },
-  });
-
-  const generateItineraryMutation = useMutation({
-    mutationFn: generateItinerary,
-    onSuccess: async (data) => {
-      console.log(data);
-    },
-  });
-
-  const onSubmit = handleSubmit(async (data) => {
-    return generateItineraryMutation.mutate({
-      startingPlace: data.startingPlace,
-      transportationType: data.transportationType[0] as any,
-      travelPreferences: [],
-      totalNumberOfDays: data.numberOfDays,
-    });
   });
 
   return (
@@ -74,12 +102,12 @@ export default function HomePage() {
       <GlassCard
         title={"Générer un itinéraire éco-responsable en france"}
         footer={
-          <Button type={"submit"} form={"itinerate-form"}>
+          <Button type={"submit"} form={"itinerary"}>
             Générer l'itinéraire
           </Button>
         }
       >
-        <form id="itinerate-form" onSubmit={onSubmit}>
+        <Form onSubmit={handleSubmit} method="POST" id={"itinerary"}>
           <VStack gap={3}>
             <Field
               label="Ville de départ"
@@ -89,9 +117,7 @@ export default function HomePage() {
               <Input
                 placeholder="Biarritz"
                 type={"text"}
-                {...register("startingPlace", {
-                  required: "Veuillez renseigner une ville de départ",
-                })}
+                {...register("startingPlace")}
               />
             </Field>
             <Field
@@ -135,20 +161,11 @@ export default function HomePage() {
               <Input
                 placeholder="7"
                 type={"number"}
-                {...register("numberOfDays", {
-                  min: {
-                    value: 3,
-                    message: "Le nombre de jour minimum est de 3",
-                  },
-                  max: {
-                    value: 7,
-                    message: "Le nombre de jour maximum est de 7",
-                  },
-                })}
+                {...register("numberOfDays")}
               />
             </Field>
           </VStack>
-        </form>
+        </Form>
       </GlassCard>
     </Container>
   );

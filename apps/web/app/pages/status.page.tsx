@@ -4,9 +4,9 @@ import { LuCheckCircle, LuStopCircle } from "react-icons/lu";
 import { Container, Flex, Text } from "@chakra-ui/react";
 import { GlassCard } from "@/components/ui/glass-card";
 
-import { useQuery } from "@tanstack/react-query";
-
 import { getHealthStatus } from "@/api/health/health.api";
+
+import { Route } from "../+types/root";
 
 const Indicator = ({ isUp }: { isUp: boolean }) =>
   isUp ? (
@@ -26,17 +26,17 @@ const Item = ({ isUp, children }: PropsWithChildren<{ isUp: boolean }>) => (
   </Flex>
 );
 
-export default function StatusPage() {
-  const { data: isHealthy } = useQuery({
-    queryKey: ["health"],
-    initialData: false,
-    queryFn: getHealthStatus,
-    refetchInterval: 5000,
-  });
+export async function loader() {
+  return getHealthStatus();
+}
+
+export default function StatusPage({
+  loaderData: isHealthy,
+}: Route.ComponentProps) {
   return (
     <Container width="md">
       <GlassCard title={"StatusPage"}>
-        <Item isUp={isHealthy}> Eco Planner API </Item>
+        <Item isUp={isHealthy as any}> Eco Planner API </Item>
       </GlassCard>
     </Container>
   );

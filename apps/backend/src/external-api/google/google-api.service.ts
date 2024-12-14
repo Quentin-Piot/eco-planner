@@ -1,10 +1,10 @@
 import { GenerativeModel, GoogleGenerativeAI } from "@google/generative-ai";
 import { Client, TravelMode } from "@googlemaps/google-maps-services-js";
 import { Injectable } from "@nestjs/common";
-import { GenerateItineraryDto } from "@quentinpiot/dtos";
-import { Journey } from "@quentinpiot/dtos/dist/itinerary/get-journeys-details.dto";
 
 import { itinerarySchema } from "@/external-api/itinerary/itinerary-schema";
+import { GenerateItineraryDto } from "@/itinerary/dtos/generate-itinerary.dto";
+import { Journey } from "@/itinerary/dtos/get-journeys-details.dto";
 
 @Injectable()
 export class GoogleApiService {

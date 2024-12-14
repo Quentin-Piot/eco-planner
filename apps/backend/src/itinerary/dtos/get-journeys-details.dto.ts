@@ -1,22 +1,11 @@
-import {
-  ArrayMinSize,
-  IsArray,
-  IsEnum,
-  IsInt,
-  IsNotEmpty,
-  IsOptional,
-  IsPositive,
-  IsString,
-  Max,
-  Min, ValidateNested,
-} from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
+import { ArrayMinSize, IsArray, IsEnum, IsNotEmpty, IsString, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 
 enum TransportationType {
-  PRIVATE_TRANSPORT="PRIVATE_TRANSPORT",
-  PUBLIC_TRANSPORT="PUBLIC_TRANSPORT"
+  PRIVATE_TRANSPORT = "PRIVATE_TRANSPORT",
+  PUBLIC_TRANSPORT = "PUBLIC_TRANSPORT"
 }
+
 export class Journey {
   @IsString()
   @IsNotEmpty()
@@ -27,9 +16,10 @@ export class Journey {
 
   @IsEnum(TransportationType, { each: true })
   @IsNotEmpty()
-  transportationType: TransportationType
+  transportationType: TransportationType;
 
 }
+
 export class GetJourneysDetailsDto {
 
   @IsArray()

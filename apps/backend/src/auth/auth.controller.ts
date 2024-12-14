@@ -1,9 +1,9 @@
 import { Controller, Post, Req, UseGuards } from "@nestjs/common";
-import { LoginResponseDto } from "@quentinpiot/dtos";
 import type { Request } from "express";
 
 import { AuthService } from "@/auth/auth.service";
 import { LocalEmailAuthGuard } from "@/auth/guards/local-email-auth.guard";
+import { LoginResponseDto } from "@/user/dtos/login.dto";
 
 @Controller("auth")
 export class AuthController {

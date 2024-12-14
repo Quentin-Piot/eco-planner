@@ -8,9 +8,6 @@ import {
 
 import { Provider } from "@/components/ui/provider";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider } from "next-themes";
-
 import ErrorPage from "@/pages/error.page";
 
 import type { Route } from "./+types/root";
@@ -36,17 +33,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-const queryClient = new QueryClient();
-
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Provider>
-        <ThemeProvider disableTransitionOnChange attribute="class">
-          <Outlet />
-        </ThemeProvider>
-      </Provider>
-    </QueryClientProvider>
+    <Provider>
+      <Outlet />
+    </Provider>
   );
 }
 
