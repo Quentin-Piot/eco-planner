@@ -247,9 +247,6 @@ importers:
       postcss:
         specifier: ^8.4.49
         version: 8.4.49
-      react-simple-map:
-        specifier: ^3.0.2
-        version: 3.0.2(prop-types@15.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       typescript:
         specifier: ^5.7.2
         version: 5.7.2
@@ -3662,13 +3659,6 @@ packages:
     peerDependenciesMeta:
       react-dom:
         optional: true
-
-  react-simple-map@3.0.2:
-    resolution: {integrity: sha512-gUpp8CsbGoA/JvclO8TsVAdjrERYojZgovWdDoTNIiQXmysY/5CqzKfKSzNVYx4akr9hLDC4l46AVtV/vZ6WrA==}
-    peerDependencies:
-      prop-types: ^15.7.2
-      react: ^16.8.0 || 17.x || 18.x
-      react-dom: ^16.8.0 || 17.x || 18.x
 
   react-simple-maps@3.0.0:
     resolution: {integrity: sha512-vKNFrvpPG8Vyfdjnz5Ne1N56rZlDfHXv5THNXOVZMqbX1rWZA48zQuYT03mx6PAKanqarJu/PDLgshIZAfHHqw==}
@@ -8582,16 +8572,6 @@ snapshots:
       turbo-stream: 2.4.0
     optionalDependencies:
       react-dom: 18.3.1(react@18.3.1)
-
-  react-simple-map@3.0.2(prop-types@15.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
-      d3-geo: 2.0.2
-      d3-selection: 2.0.0
-      d3-zoom: 2.0.0
-      prop-types: 15.8.1
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      topojson-client: 3.1.0
 
   react-simple-maps@3.0.0(prop-types@15.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
