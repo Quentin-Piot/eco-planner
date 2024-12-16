@@ -4,9 +4,9 @@ import {
   UserMessageRole,
 } from "@mistralai/mistralai/models/components";
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
-import { GenerateItineraryDto } from "@/itinerary/dtos/generate-itinerary.dto";
 
 import { shortPrompt } from "@/external-api/itinerary/itinerary-prompt";
+import { GenerateItineraryDto } from "@/itinerary/dtos/generate-itinerary.dto";
 
 @Injectable()
 export class MistralApiService {
@@ -21,7 +21,7 @@ export class MistralApiService {
   async generateItinerary(infos: GenerateItineraryDto) {
     try {
       const result = await this.mistral.agents.complete({
-        agentId: "ag:87fe0e84:20241203:ecoplanner:27346159",
+        agentId: "ag:87fe0e84:20241205:ecoplanner-itinerary:c9489af8",
         messages: [
           {
             content: shortPrompt(infos),

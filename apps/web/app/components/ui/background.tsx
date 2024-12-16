@@ -9,8 +9,10 @@ export const Background = () => {
     <>
       <div
         style={{
-          zIndex: 0,
+          zIndex: -2,
           position: "fixed",
+          top: 0,
+          left: 0,
           width: "100vw",
           height: "100vh",
           backgroundImage: "linear-gradient(180deg, #196f3d 0%, #95d8b1 60%)",
@@ -18,7 +20,7 @@ export const Background = () => {
       />
       <div
         style={{
-          zIndex: 0,
+          zIndex: -1,
           position: "fixed",
           width: "100vw",
           height: "100vw",

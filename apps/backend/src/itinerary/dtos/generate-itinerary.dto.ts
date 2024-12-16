@@ -38,30 +38,3 @@ export class GenerateItineraryDto implements GenerateItineraryBody {
   @IsNotEmpty()
   transportationType: TransportationType;
 }
-
-export class ItineraryResponse {
-  stages: Array<{
-    city: string;
-    country: string;
-    totalNumberOfDays: string;
-    journey: {
-      transportationType: string;
-      price: string;
-      duration: string;
-    };
-    dailyBudget: {
-      accommodation: {
-        minBudget: string;
-        maxBudget: string;
-      };
-      food: {
-        minBudget: string;
-        maxBudget: string;
-      };
-    };
-    activities: Array<{
-      name: string;
-      price: string;
-    }>;
-  }>;
-}

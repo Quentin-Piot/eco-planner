@@ -1,15 +1,28 @@
+import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
-import { ActionFunctionArgs, Form } from "react-router";
+import {
+  ActionFunctionArgs,
+  Form,
+  useNavigate,
+  useNavigation,
+} from "react-router";
 
 import {
   Container,
   createListCollection,
+  HStack,
   Input,
   VStack,
 } from "@chakra-ui/react";
+import { AutocompleteSelect } from "@/components/ui/autocomplete-select";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { GlassCard } from "@/components/ui/glass-card";
+import {
+  RadioCardItem,
+  RadioCardLabel,
+  RadioCardRoot,
+} from "@/components/ui/radio-card";
 import {
   SelectContent,
   SelectItem,
@@ -20,13 +33,18 @@ import {
 } from "@/components/ui/select";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TransportationType } from "@quentinpiot/shared";
+import {
+  GenerateItinerariesResponse,
+  TransportationType,
+} from "@quentinpiot/shared";
 import { getValidatedFormData, useRemixForm } from "remix-hook-form";
 import * as zod from "zod";
 
 import { generateItinerary } from "@/api/itinerary/itinerary.api";
+import { LeafletMap } from "@/components/map/leaflet-map";
+import { useItinerary } from "@/hooks/itinerary.hook";
 
-import type { Route } from "../+types/root";
+import { Route } from "../../.react-router/types/app/pages/+types/home.page";
 
 const transportationTypes = createListCollection({
   items: [
@@ -48,15 +66,22 @@ export function meta({}: Route.MetaArgs) {
 }
 
 const schema = zod.object({
-  startingPlace: zod.string().min(1, "Veuillez renseigner une ville de départ"),
+  startingPlace: zod
+    .string({ required_error: "Veuillez renseigner une ville de départ" })
+    .min(1, "Veuillez renseigner une ville de départ"),
+  mandatoryStage: zod.string({
+    required_error: "Veuillez renseigner une destination",
+  }),
   transportationType: zod.array(zod.nativeEnum(TransportationType)),
   numberOfDays: zod.coerce
     .number()
-    .int()
-    .positive()
-    .min(1, "Minimum de 1 jour")
-    .max(14, "Maximum de 14 jours"),
+    .int("Veuillez renseigner un nombre de jours entre 1 et 14")
+    .min(1, "Veuillez renseigner un minimum de 1 jour")
+    .max(14, "Veuillez renseigner un maximum de 14 jours"),
 });
+
+const geoUrl =
+  "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json";
 
 type FormData = zod.infer<typeof schema>;
 
@@ -81,6 +106,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   });
 };
 
+type DestinationType = "city" | "region" | "anywhere";
+
+const destinationTypeItems: {
+  title: string;
+  description: string;
+  value: DestinationType;
+}[] = [
+  { value: "city", title: "Ville", description: "J'ai une ville en tête" },
+  { value: "region", title: "Région", description: "J'ai une région en tête" },
+
+  { value: "anywhere", title: "Partout", description: "Surprends moi" },
+];
+
 export default function HomePage({ actionData }: Route.ComponentProps) {
   const {
     handleSubmit,
@@ -91,18 +129,39 @@ export default function HomePage({ actionData }: Route.ComponentProps) {
     mode: "onSubmit",
     resolver,
     defaultValues: {
-      startingPlace: "Biarritz",
       transportationType: [TransportationType.PUBLIC_TRANSPORT],
       numberOfDays: 7,
     },
   });
+
+  const [destinationType, setDestinationType] =
+    useState<DestinationType>("anywhere");
+
+  const { setOriginalItinerary, setClassicItinerary, getCitiesFromSearchTerm } =
+    useItinerary();
+  const navigate = useNavigate();
+  const navigation = useNavigation();
+  const isLoading = navigation.formAction === "/";
+
+  useEffect(() => {
+    const itineraries = actionData as GenerateItinerariesResponse;
+    if (
+      itineraries &&
+      itineraries.classicItinerary &&
+      itineraries.originalItinerary
+    ) {
+      setClassicItinerary(itineraries.classicItinerary);
+      setOriginalItinerary(itineraries.originalItinerary);
+      navigate("/itinerary");
+    }
+  }, [actionData, navigate, setClassicItinerary, setOriginalItinerary]);
 
   return (
     <Container width="xl">
       <GlassCard
         title={"Générer un itinéraire éco-responsable en france"}
         footer={
-          <Button type={"submit"} form={"itinerary"}>
+          <Button type={"submit"} form={"itinerary"} loading={isLoading}>
             Générer l'itinéraire
           </Button>
         }
@@ -114,12 +173,45 @@ export default function HomePage({ actionData }: Route.ComponentProps) {
               errorText={errors.startingPlace?.message}
               invalid={!!errors.startingPlace}
             >
-              <Input
-                placeholder="Biarritz"
-                type={"text"}
-                {...register("startingPlace")}
+              <AutocompleteSelect
+                control={control}
+                name={"startingPlace"}
+                getSelection={getCitiesFromSearchTerm}
               />
             </Field>
+
+            <RadioCardRoot
+              width={"100%"}
+              value={destinationType}
+              onValueChange={(e) => setDestinationType(e.value as any)}
+            >
+              <RadioCardLabel>Destination</RadioCardLabel>
+              <HStack align="stretch">
+                {destinationTypeItems.map((item) => (
+                  <RadioCardItem
+                    label={item.description}
+                    key={item.value}
+                    value={item.value}
+                  />
+                ))}
+              </HStack>
+            </RadioCardRoot>
+
+            {destinationType === "city" && (
+              <Field
+                label="Ville de destination"
+                errorText={errors.mandatoryStage?.message}
+                invalid={!!errors.mandatoryStage}
+              >
+                <AutocompleteSelect
+                  control={control}
+                  name={"mandatoryStage"}
+                  getSelection={getCitiesFromSearchTerm}
+                />
+              </Field>
+            )}
+
+            {destinationType === "region" && <LeafletMap />}
             <Field
               errorText={errors.transportationType?.message}
               invalid={!!errors.transportationType}

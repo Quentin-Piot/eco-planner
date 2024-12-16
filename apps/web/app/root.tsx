@@ -12,6 +12,8 @@ import ErrorPage from "@/pages/error.page";
 
 import type { Route } from "./+types/root";
 
+import "leaflet/dist/leaflet.css";
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">

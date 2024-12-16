@@ -10,6 +10,15 @@ export enum TransportationType {
   "PUBLIC_TRANSPORT" = "PUBLIC_TRANSPORT",
 }
 
+export enum Transport {
+  "CAR" = "CAR",
+  "BUS" = "BUS",
+  "TRAIN" = "TRAIN",
+  "BIKE" = "BIKE",
+  "CARPOOL" = "CARPOOL",
+}
+
+
 export type GenerateItineraryBody = {
   startingPlace: string;
   totalNumberOfDays: number;
@@ -18,29 +27,42 @@ export type GenerateItineraryBody = {
   transportationType: TransportationType;
 }
 
-export type ItineraryResponse = {
-  stages: Array<{
-    city: string;
-    country: string;
-    totalNumberOfDays: string;
-    journey: {
-      transportationType: string;
-      price: string;
-      duration: string;
-    };
-    dailyBudget: {
-      accommodation: {
-        minBudget: string;
-        maxBudget: string;
-      };
-      food: {
-        minBudget: string;
-        maxBudget: string;
-      };
-    };
-    activities: Array<{
-      name: string;
-      price: string;
-    }>;
-  }>;
+export type Activity = {
+  name: string
+  description: string
+  price: number
+  carbonImpact: number
+  address: string
 }
+export type JourneyStep = {
+  from: string
+  to: string
+  duration: number
+  distance: number
+  waitingTime: number
+  transportationType: Transport
+  carbonImpact: number
+}
+export type Journey = {
+  steps: JourneyStep[]
+}
+
+export type StageInformation = {
+  city: string
+  country: string
+  numberOfDays: number
+  activities: Activity[]
+  journey: Journey
+}
+
+export type Itinerary = {
+  totalBudget: number
+  totalCarbonImpact: number
+  stages: StageInformation[]
+}
+
+export type GenerateItinerariesResponse = {
+  classicItinerary: Itinerary
+  originalItinerary: Itinerary
+}
+

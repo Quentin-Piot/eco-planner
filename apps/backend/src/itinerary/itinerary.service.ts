@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { GenerateItineraryDto } from "@/itinerary/dtos/generate-itinerary.dto";
-import { Journey } from "@/itinerary/dtos/get-journeys-details.dto";
 
 import { GoogleApiService } from "@/external-api/google/google-api.service";
 import { MistralApiService } from "@/external-api/mistral/mistral-api.service";
+import { GenerateItineraryDto } from "@/itinerary/dtos/generate-itinerary.dto";
+import { Journey } from "@/itinerary/dtos/get-journeys-details.dto";
 
 @Injectable()
 export class ItineraryService {

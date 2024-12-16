@@ -1,9 +1,15 @@
-import { GenerateItineraryBody, ItineraryResponse } from "@quentinpiot/shared";
+import {
+  GenerateItinerariesResponse,
+  GenerateItineraryBody,
+} from "@quentinpiot/shared";
 
 import api from "@/api/helpers/api";
 
 export const generateItinerary = async (
   itineraryInfos: GenerateItineraryBody,
 ) => {
-  return api.post<ItineraryResponse>("itinerary/generate", itineraryInfos);
+  return api.post<GenerateItinerariesResponse>(
+    "itinerary/generate",
+    itineraryInfos,
+  );
 };
