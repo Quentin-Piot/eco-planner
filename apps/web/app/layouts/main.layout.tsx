@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Outlet } from "react-router";
 
-import { Box, Text, useMenu } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { Background } from "@/components/ui/background";
 
 import { ItineraryProvider } from "@/contexts/itinerary.context";
