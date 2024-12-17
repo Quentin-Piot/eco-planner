@@ -1,10 +1,4 @@
-import { TreeShadow } from "@/components/ui/tree-shadow";
-
-import { useIsMobile } from "@/hooks/is-mobile.hook";
-
-export const Background = () => {
-  const { isMobile } = useIsMobile();
-
+export const Background = ({ imageUrl }: any) => {
   return (
     <>
       <div
@@ -15,27 +9,15 @@ export const Background = () => {
           left: 0,
           width: "100vw",
           height: "100vh",
-          backgroundImage: "linear-gradient(180deg, #196f3d 0%, #95d8b1 60%)",
+          filter: "blur(1px)",
+          backgroundImage: imageUrl
+            ? `url(${imageUrl})`
+            : "linear-gradient(to right, #868f96 0%, #596164 100%)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          transition: "background-image 1s ease-in-out",
         }}
       />
-      <div
-        style={{
-          zIndex: -1,
-          position: "fixed",
-          width: "100vw",
-          height: "100vw",
-          ...(isMobile === true && {
-            bottom: "-150px",
-          }),
-          ...(isMobile === false && {
-            top: "60px",
-          }),
-          opacity: isMobile === undefined ? 0 : 0.1,
-          transition: "opacity 5s ease-out",
-        }}
-      >
-        <TreeShadow />
-      </div>
     </>
   );
 };

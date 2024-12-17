@@ -1,11 +1,36 @@
+import { useMemo } from "react";
 import { Outlet } from "react-router";
 
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, useMenu } from "@chakra-ui/react";
 import { Background } from "@/components/ui/background";
 
 import { ItineraryProvider } from "@/contexts/itinerary.context";
+export const loader = async () => {
+  const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 
-export default function MainLayout() {
+  if (!UNSPLASH_ACCESS_KEY) {
+    throw new Error(
+      "Unsplash Access Key is not defined in the environment variables.",
+    );
+  }
+
+  // Récupère une image aléatoire depuis Unsplash avec un mot-clé "nature".
+  const unsplashUrl = `https://api.unsplash.com/photos/random?query=nature&client_id=${UNSPLASH_ACCESS_KEY}`;
+
+  try {
+    const response = await fetch(unsplashUrl);
+    if (!response.ok) {
+      throw new Error("Failed to fetch image from Unsplash");
+    }
+
+    const data = await response.json();
+    return { imageUrl: data.urls.full };
+  } catch {
+    return { error: "Failed to fetch image", status: 500 };
+  }
+};
+export default function MainLayout({ loaderData }: any) {
+  const imageUrl = useMemo(() => loaderData.imageUrl, []);
   return (
     <ItineraryProvider>
       <Box
@@ -25,7 +50,7 @@ export default function MainLayout() {
         >
           <Outlet />
         </Box>
-        <Background />
+        <Background imageUrl={imageUrl} />
         <Text
           position={"fixed"}
           bottom={2}

@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { lazy, Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 
-export const LeafletMap = () => {
+import LeafletMapClient, {
+  LeafletMapClientProps,
+} from "@/components/map/leaflet-map.client";
+
+export const LeafletMap = (props: LeafletMapClientProps) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
-
-  const LeafletMap = lazy(() => import("./leaflet-map.client"));
 
   if (!isClient) {
     return null;
@@ -18,7 +19,7 @@ export const LeafletMap = () => {
 
   return (
     <Suspense fallback={<div>Loading map...</div>}>
-      <LeafletMap />
+      <LeafletMapClient {...props} />
     </Suspense>
   );
 };

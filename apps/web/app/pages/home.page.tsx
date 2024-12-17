@@ -10,7 +10,7 @@ import {
 import {
   Container,
   createListCollection,
-  HStack,
+  Flex,
   Input,
   VStack,
 } from "@chakra-ui/react";
@@ -41,6 +41,7 @@ import { getValidatedFormData, useRemixForm } from "remix-hook-form";
 import * as zod from "zod";
 
 import { generateItinerary } from "@/api/itinerary/itinerary.api";
+import regions from "@/assets/regions-geo.json";
 import { LeafletMap } from "@/components/map/leaflet-map";
 import { useItinerary } from "@/hooks/itinerary.hook";
 
@@ -80,9 +81,6 @@ const schema = zod.object({
     .max(14, "Veuillez renseigner un maximum de 14 jours"),
 });
 
-const geoUrl =
-  "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json";
-
 type FormData = zod.infer<typeof schema>;
 
 const resolver = zodResolver(schema);
@@ -103,6 +101,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     totalNumberOfDays: data.numberOfDays,
     startingPlace: data.startingPlace,
     travelPreferences: [],
+    mandatoryStage:
+      data.mandatoryStage && data.mandatoryStage.length
+        ? data.mandatoryStage
+        : undefined,
   });
 };
 
@@ -125,6 +127,7 @@ export default function HomePage({ actionData }: Route.ComponentProps) {
     formState: { errors },
     register,
     control,
+    setValue,
   } = useRemixForm<FormData>({
     mode: "onSubmit",
     resolver,
@@ -157,7 +160,7 @@ export default function HomePage({ actionData }: Route.ComponentProps) {
   }, [actionData, navigate, setClassicItinerary, setOriginalItinerary]);
 
   return (
-    <Container width="xl">
+    <Container width="6xl">
       <GlassCard
         title={"Générer un itinéraire éco-responsable en france"}
         footer={
@@ -183,10 +186,19 @@ export default function HomePage({ actionData }: Route.ComponentProps) {
             <RadioCardRoot
               width={"100%"}
               value={destinationType}
-              onValueChange={(e) => setDestinationType(e.value as any)}
+              onValueChange={(e) => {
+                setDestinationType(e.value as any);
+                return setValue(
+                  "mandatoryStage",
+                  e.value === "anywhere" ? "" : (undefined as any),
+                );
+              }}
             >
               <RadioCardLabel>Destination</RadioCardLabel>
-              <HStack align="stretch">
+              <Flex
+                flexDirection={{ base: "column", lg: "row" }}
+                align="stretch"
+              >
                 {destinationTypeItems.map((item) => (
                   <RadioCardItem
                     label={item.description}
@@ -194,7 +206,7 @@ export default function HomePage({ actionData }: Route.ComponentProps) {
                     value={item.value}
                   />
                 ))}
-              </HStack>
+              </Flex>
             </RadioCardRoot>
 
             {destinationType === "city" && (
@@ -211,7 +223,25 @@ export default function HomePage({ actionData }: Route.ComponentProps) {
               </Field>
             )}
 
-            {destinationType === "region" && <LeafletMap />}
+            {destinationType === "region" && (
+              <Field
+                errorText={errors.mandatoryStage?.message}
+                invalid={!!errors.mandatoryStage}
+              >
+                <Controller
+                  control={control}
+                  name="mandatoryStage"
+                  render={({ field }) => (
+                    <LeafletMap
+                      isInvalid={!!errors.mandatoryStage?.message}
+                      gjson={regions}
+                      selectedFeature={field.value}
+                      onFeatureSelect={(feature) => field.onChange(feature)}
+                    />
+                  )}
+                />
+              </Field>
+            )}
             <Field
               errorText={errors.transportationType?.message}
               invalid={!!errors.transportationType}
