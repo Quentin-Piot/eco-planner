@@ -8,12 +8,6 @@ import { ItineraryProvider } from "@/contexts/itinerary.context";
 export const loader = async () => {
   const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 
-  if (!UNSPLASH_ACCESS_KEY) {
-    throw new Error(
-      "Unsplash Access Key is not defined in the environment variables.",
-    );
-  }
-
   // Récupère une image aléatoire depuis Unsplash avec un mot-clé "nature".
   const unsplashUrl = `https://api.unsplash.com/photos/random?query=nature&client_id=${UNSPLASH_ACCESS_KEY}`;
 
