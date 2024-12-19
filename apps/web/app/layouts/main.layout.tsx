@@ -1,16 +1,39 @@
 import { useMemo } from "react";
-import { Outlet } from "react-router";
+import { createCookie, Outlet } from "react-router";
 
 import { Box, Text } from "@chakra-ui/react";
 import { Background } from "@/components/ui/background";
 
 import { ItineraryProvider } from "@/contexts/itinerary.context";
-export const loader = async () => {
-  const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 
-  // Récupère une image aléatoire depuis Unsplash avec un mot-clé "nature".
+const imageCookie = createCookie("unsplash_image", {
+  maxAge: 24 * 60 * 60,
+  httpOnly: true,
+  secure: true,
+  sameSite: "strict",
+});
+export const loader = async ({ request }: any) => {
+  if (!process.env.UNSPLASH_ACCESS_KEY) {
+    throw Error("Unspashed access key not available");
+  }
+  const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
   const unsplashUrl = `https://api.unsplash.com/photos/random?query=nature&client_id=${UNSPLASH_ACCESS_KEY}`;
 
+  // Parse the existing cookie
+  const cookieHeader = request.headers.get("Cookie");
+  const imageData = await imageCookie.parse(cookieHeader);
+
+  // Check if the image is less than 1 day old
+  if (
+    imageData &&
+    imageData.imageUrl &&
+    new Date().getTime() - new Date(imageData.timestamp).getTime() <
+      24 * 60 * 60 * 1000
+  ) {
+    return { imageUrl: imageData.imageUrl };
+  }
+
+  // Fetch a new image from Unsplash
   try {
     const response = await fetch(unsplashUrl);
     if (!response.ok) {
@@ -18,11 +41,27 @@ export const loader = async () => {
     }
 
     const data = await response.json();
-    return { imageUrl: data.urls.full };
-  } catch {
+    const newImageUrl = data.urls.full;
+
+    // Save the new image data in the cookie
+    const newImageData = {
+      imageUrl: newImageUrl,
+      timestamp: new Date().toISOString(),
+    };
+    const newCookie = await imageCookie.serialize(newImageData);
+
+    return new Response(JSON.stringify({ imageUrl: newImageUrl }), {
+      headers: {
+        "Set-Cookie": newCookie,
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching or saving image:", error);
     return { error: "Failed to fetch image", status: 500 };
   }
 };
+
 export default function MainLayout({ loaderData }: any) {
   const imageUrl = useMemo(() => loaderData.imageUrl, []);
   return (
