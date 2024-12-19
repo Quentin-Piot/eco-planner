@@ -13,9 +13,10 @@ const imageCookie = createCookie("unsplash_image", {
   sameSite: "strict",
 });
 export const loader = async ({ request }: any) => {
-  if (!process.env.UNSPLASH_ACCESS_KEY) {
-    throw Error("Unspashed access key not available");
+  if (typeof process.env.UNSPLASH_ACCESS_KEY === "undefined") {
+    throw new Error("Unsplash access key is required but not set.");
   }
+
   const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
   const unsplashUrl = `https://api.unsplash.com/photos/random?query=nature&client_id=${UNSPLASH_ACCESS_KEY}`;
 
