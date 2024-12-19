@@ -13,7 +13,10 @@ const imageCookie = createCookie("unsplash_image", {
   sameSite: "strict",
 });
 export const loader = async ({ request }: any) => {
-  if (typeof process.env.UNSPLASH_ACCESS_KEY === "undefined") {
+  if (
+    process.env.NODE_ENV !== "production" &&
+    typeof process.env.UNSPLASH_ACCESS_KEY === "undefined"
+  ) {
     throw new Error("Unsplash access key is required but not set.");
   }
 
