@@ -23,6 +23,7 @@ export const loader = async ({ request }: any) => {
   const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
   const unsplashUrl = `https://api.unsplash.com/photos/random?query=nature&client_id=${UNSPLASH_ACCESS_KEY}`;
 
+  console.log(process.env.UNSPLASH_ACCESS_KEY);
   // Parse the existing cookie
   const cookieHeader = request.headers.get("Cookie");
   const imageData = await imageCookie.parse(cookieHeader);
@@ -67,7 +68,8 @@ export const loader = async ({ request }: any) => {
 };
 
 export default function MainLayout({ loaderData }: any) {
-  const imageUrl = useMemo(() => loaderData.imageUrl, []);
+  const imageUrl = useMemo(() => loaderData.imageUrl, [loaderData.imageUrl]);
+
   return (
     <ItineraryProvider>
       <Box
