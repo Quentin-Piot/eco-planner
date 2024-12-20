@@ -1,15 +1,19 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { GeoJSON, MapContainer, TileLayer } from "react-leaflet";
 
 import { Box } from "@chakra-ui/react";
+import { config } from "@/components/ui/provider";
+
+import * as L from "leaflet";
 
 export type LeafletMapClientProps = {
   gjson?: any;
   onFeatureSelect?: (feature: string) => void;
   selectedFeature?: string;
   isInvalid?: boolean;
+  width: number;
 };
 
 const LeafletMapClient = ({
@@ -17,14 +21,19 @@ const LeafletMapClient = ({
   selectedFeature,
   onFeatureSelect = () => null,
   isInvalid = false,
+  width,
 }: LeafletMapClientProps) => {
   const memoizedGeoJSON = useMemo(() => gjson, [gjson]);
 
   return (
     <>
       <Box
-        width={"100%"}
-        height={"500px"}
+        width="100%"
+        height={{ base: "350px", md: "500px" }}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        position="relative"
         borderRadius="0.25rem"
         borderColor={isInvalid ? "border.error" : undefined}
         borderWidth={1}
@@ -33,6 +42,9 @@ const LeafletMapClient = ({
           style={{
             height: "100%",
             width: "100%",
+            position: "absolute",
+            top: 0,
+            left: 0,
             borderRadius: "0.25rem",
           }}
           center={[46.232192999999995, 2.209666999999996]}
@@ -55,7 +67,10 @@ const LeafletMapClient = ({
               onEachFeature={(feature, layer: any) => {
                 const defaultStyle = { color: "#cccccc", weight: 1 };
                 const hoverStyle = { color: "#8c8c8c", weight: 2 };
-                const activeStyle = { color: "#90c5aa", weight: 3 };
+                const activeStyle = {
+                  color: config.theme?.tokens?.colors?.primary.value,
+                  weight: 3,
+                };
 
                 if (feature.properties.nom !== selectedFeature) {
                   layer.setStyle(defaultStyle);
@@ -76,8 +91,6 @@ const LeafletMapClient = ({
                   },
                   click: () => {
                     layer._map.eachLayer((mapLayer: any) => {
-                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                      // @ts-expect-error
                       if (mapLayer instanceof L.GeoJSON) {
                         mapLayer.eachLayer((geoLayer: any) => {
                           geoLayer.setStyle(defaultStyle);

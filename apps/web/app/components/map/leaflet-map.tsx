@@ -1,12 +1,12 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { PropsWithChildren, Suspense, useEffect, useState } from "react";
 
 import LeafletMapClient, {
   LeafletMapClientProps,
 } from "@/components/map/leaflet-map.client";
 
-export const LeafletMap = (props: LeafletMapClientProps) => {
+const Wrapper = ({ children }: PropsWithChildren) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -17,9 +17,14 @@ export const LeafletMap = (props: LeafletMapClientProps) => {
     return null;
   }
 
+  return <>{children}</>;
+};
+export const LeafletMap = (props: LeafletMapClientProps) => {
   return (
-    <Suspense fallback={<div>Loading map...</div>}>
-      <LeafletMapClient {...props} />
+    <Suspense fallback={<div>Chargement</div>}>
+      <Wrapper>
+        <LeafletMapClient {...props} />
+      </Wrapper>
     </Suspense>
   );
 };

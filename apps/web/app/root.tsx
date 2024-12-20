@@ -12,8 +12,6 @@ import ErrorPage from "@/pages/error.page";
 
 import type { Route } from "./+types/root";
 
-import "leaflet/dist/leaflet.css";
-
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -24,6 +22,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           content="Bienvenue sur EcoPlanner, le créateur d'itinéraires eco-responsables en France"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="/leaflet.css" />
         <Meta />
       </head>
       <body>

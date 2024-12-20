@@ -11,13 +11,13 @@ import {
   Container,
   createListCollection,
   Flex,
-  Input,
   VStack,
 } from "@chakra-ui/react";
 import { AutocompleteSelect } from "@/components/ui/autocomplete-select";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { GlassCard } from "@/components/ui/glass-card";
+import { Input } from "@/components/ui/input";
 import {
   RadioCardItem,
   RadioCardLabel,
@@ -197,6 +197,7 @@ export default function HomePage({ actionData }: Route.ComponentProps) {
               <RadioCardLabel>Destination</RadioCardLabel>
               <Flex
                 flexDirection={{ base: "column", lg: "row" }}
+                gap={2}
                 align="stretch"
               >
                 {destinationTypeItems.map((item) => (
@@ -280,11 +281,7 @@ export default function HomePage({ actionData }: Route.ComponentProps) {
               errorText={errors.numberOfDays?.message}
               invalid={!!errors.numberOfDays}
             >
-              <Input
-                placeholder="7"
-                type={"number"}
-                {...register("numberOfDays")}
-              />
+              <Input type={"number"} {...register("numberOfDays")} />
             </Field>
           </VStack>
         </Form>

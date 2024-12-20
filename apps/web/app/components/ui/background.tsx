@@ -9,7 +9,6 @@ export const Background = ({ imageUrl }: any) => {
           left: 0,
           width: "100vw",
           height: "100vh",
-          filter: "blur(1px)",
           backgroundImage: imageUrl
             ? `url(${imageUrl})`
             : "linear-gradient(to right, #868f96 0%, #596164 100%)",

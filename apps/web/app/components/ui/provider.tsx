@@ -5,16 +5,38 @@ import {
   createSystem,
   defaultSystem,
   defineConfig,
+  defineRecipe,
+  mergeConfigs,
 } from "@chakra-ui/react";
 
 import { ColorModeProvider, type ColorModeProviderProps } from "./color-mode";
 
-const config = defineConfig({
+export const config = defineConfig({
   theme: {
+    recipes: {
+      input: defineRecipe({
+        defaultVariants: {
+          colorPalette: "red",
+          visual: "subtle",
+        },
+        variants: {
+          visual: {
+            subtle: {
+              bg: "gray.50",
+              borderColor: "gray.400",
+              _focus: {
+                borderColor: "primary",
+              },
+            },
+          },
+        },
+      }),
+    },
     tokens: {
       colors: {
-        primary: { value: "#196f3d" },
-        secondary: { value: "#95d8b1" },
+        primary: { value: "#007A5C" },
+        primaryLight: { value: "#B1CFC8" },
+        secondary: { value: "#E1A28E" },
       },
       fonts: {
         body: { value: "system-ui, verdana" },
@@ -23,7 +45,8 @@ const config = defineConfig({
   },
 });
 
-const system = createSystem(defaultSystem._config, config);
+const mergedConfig = mergeConfigs(defaultSystem._config, config);
+const system = createSystem(mergedConfig);
 
 export function Provider(props: ColorModeProviderProps) {
   return (

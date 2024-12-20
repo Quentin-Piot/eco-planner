@@ -3,7 +3,8 @@
 import { FC, useRef, useState } from "react";
 import { Control, Controller } from "react-hook-form";
 
-import { Box, Input } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import { Input } from "@/components/ui/input";
 import {
   PopoverBody,
   PopoverContent,
@@ -42,15 +43,15 @@ export const AutocompleteSelect: FC<AutocompleteSelectProps> = ({
               <PopoverTrigger asChild>
                 <Input
                   width={"100%"}
-                  placeholder="Biarritz"
                   type="text"
                   ref={ref}
+                  variant={"outline"}
                   value={field.value}
                   onChange={(e) => {
                     const value = e.target.value;
                     setSuggestions(getSelection(value));
                     field.onChange(value);
-                    setActiveIndex(null); // Réinitialise l'index actif
+                    setActiveIndex(null);
                   }}
                   onKeyDown={(e) => {
                     if (e.key === "ArrowDown") {
@@ -77,18 +78,23 @@ export const AutocompleteSelect: FC<AutocompleteSelectProps> = ({
                   }}
                 />
               </PopoverTrigger>
-              <PopoverContent width="auto">
-                <PopoverBody>
+              <PopoverContent width="auto" borderRadius={"0.25em"}>
+                <PopoverBody p={0}>
                   {suggestions.map((suggestion, index) => (
                     <Box
+                      borderTopRadius={index === 0 ? "0.25em" : 0}
+                      borderBottomRadius={
+                        index === suggestions.length - 1 ? "0.25em" : 0
+                      }
                       key={suggestion}
                       onClick={() => {
-                        field.onChange(suggestion); // Met à jour la valeur avec la suggestion cliquée
-                        setSuggestions([]); // Réinitialise les suggestions
+                        field.onChange(suggestion);
+                        setSuggestions([]);
                       }}
-                      paddingX={2}
-                      paddingY={2}
-                      bgColor={activeIndex === index ? "#eee" : "transparent"}
+                      p={2}
+                      bgColor={
+                        activeIndex === index ? "primaryLight" : "transparent"
+                      }
                       cursor={"pointer"}
                       onMouseEnter={() => setActiveIndex(index)}
                     >

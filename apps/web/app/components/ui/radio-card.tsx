@@ -22,7 +22,13 @@ export const RadioCardItem = React.forwardRef<
     description,
     addon,
     icon,
-    indicator = <RadioCard.ItemIndicator />,
+    indicator = (
+      <RadioCard.ItemIndicator
+        _checked={{
+          bg: "primary",
+        }}
+      />
+    ),
     indicatorPlacement = "end",
     ...rest
   } = props;
@@ -31,7 +37,12 @@ export const RadioCardItem = React.forwardRef<
   const ContentWrapper = indicator ? RadioCard.ItemContent : React.Fragment;
 
   return (
-    <RadioCard.Item {...rest}>
+    <RadioCard.Item
+      bg={"gray.50"}
+      _focus={{ borderColor: "primary" }}
+      _checked={{ borderColor: "primary" }}
+      {...rest}
+    >
       <RadioCard.ItemHiddenInput ref={ref} {...inputProps} />
       <RadioCard.ItemControl>
         {indicatorPlacement === "start" && indicator}
